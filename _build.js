@@ -27,6 +27,7 @@ $(document).ready(function() {
         "background-color": "white",
         "border-bottom": "1px solid black"
     })
+    $('#header').append('<input type="button" onclick="login()" value="login">')
 
     ///////////////////////////
     //containers
@@ -35,7 +36,7 @@ $(document).ready(function() {
     $("body").append("<div id='leftContainer'>")
     $("#leftContainer").css({
         "float": "left",
-        "width": (($("body").width() / 100) * 15) - 2,
+        "width": (($("body").width() / 100) * 25) - 2,
         "height": $('body').height() - 120,
         "background-color": "white",
         "position": "absolute",
@@ -53,13 +54,34 @@ $(document).ready(function() {
         "background-color": "white"
     })
 
+    $(window).resize(function(event) {
+      $("#mainContainer").css({
+          "height": $('body').height() - 120,
+          "width": $('body').width() - $('#leftContainer').width() - 1,
+          "position": "absolute",
+          "right": 0,
+          "top": "60px",
+          "background-color": "white"
+      })
+      $("#leftContainer").css({
+          "float": "left",
+          "width": (($("body").width() / 100) * 25) - 2,
+          "height": $('body').height() - 120,
+          "background-color": "white",
+          "position": "absolute",
+          "top": "60px",
+          "border-right": "1px solid black"
+      })
+      change()
+    });
+
     ///////////////////////////
     //menu
     ///////////////////////////
 
     var menupoints = [
-        ["main", true],
-        ["sub", false],
+        ["stuff", true],
+        ["pictures of cats", false],
         ["sub", false],
         ["sub", false],
         ["sub", false]
@@ -74,57 +96,79 @@ $(document).ready(function() {
         }
 
     }
-    var x = 0
-    $('#menu').children().each(function() {
+    $('#menu').children().each(function(index) {
         $(this).css({
             "list-style-type": "none",
-            "transition": "all 0.3s cubic-bezier(0.42, 0, 1, -0.15)",
+            "transition": "all 0.3s",
             "padding-top": "10px",
             "padding-bottom": "10px",
             "padding-right": "60px",
             "padding-left": "60px",
             "position": "absolute",
-            "top": 40 + (x * 60),
+            "top": 40 + (index * 60),
             "left": "-2px",
             "border": "1px solid black",
-            "width": "25px"
+            "width": "45%"
         })
-        x++
     });
+    $(".chosen").css({
+      "background-color": "rgba(0,0,0,0.2)",
+      "width": "50%",
+      "box-shadow": "2px 2px 2px black"
+    })
     $('#menu').children().mouseenter(function() {
-      console.log($(this).attr("class"));
         if ($(this).attr("class") == "chosen") {
             $(this).css({
-                "width": "50px",
+                "width": "51%",
                 "box-shadow": "2px 2px 2px black"
             })
         } else {
             $(this).css({
-                "width": "45px",
+                "width": "46%",
                 "box-shadow": "2px 2px 2px black"
             })
         }
     });
     $('#menu').children().mouseleave(function() {
-      console.log($(this).attr("class"));
+      console.log($(this));
         if ($(this).attr("class") == "chosen") {
           $(this).css({
-              "width": "50px",
+              "width": "50%",
               "box-shadow": "2px 2px 2px black"
           })
         } else {
             $(this).css({
-                "width": "25px",
+                "width": "45%",
                 "box-shadow": "0px 0px 0px black"
             })
         }
     });
-    $('.chosen').siblings().click(function() {
-      console.log($(this));
+    $("#menu").children().click(function() {
+      if ($(this).attr("class") != "chosen") {
         $('.chosen').toggleClass('chosen');
         $(this).toggleClass('chosen');
         change()
-    });
+      }
+    })
+
+    function change() {
+      $('#menu').children().each(function() {
+        if ($(this).attr("class") == "chosen") {
+          $(this).css({
+              "background-color": "rgba(0,0,0,0.2)",
+              "width": "50%",
+              "box-shadow": "2px 2px 2px black"
+          })
+        }
+        else {
+          $(this).css({
+              "background-color": "white",
+              "width": "45%",
+              "box-shadow": "0px 0px 0px black"
+          })
+        }
+      });
+    }
 
     ///////////////////////////
     //footer
@@ -132,7 +176,7 @@ $(document).ready(function() {
     $("body").append("<div id='footer'>")
     $("#footer").css({
         "height": "59px",
-        "width": $('body').width(),
+        "width": "100%",
         "position": "absolute",
         "bottom": "0",
         "background-color": "white",
@@ -147,20 +191,4 @@ $(document).ready(function() {
     })
 })
 
-function change() {
-  $('#menu').children().each(function() {
-    if ($(this).attr("class") == "chosen") {
-      $(this).css({
-          "background-color": "rgba(0,0,0,0.2)",
-          "width": "50px",
-          "box-shadow": "2px 2px 2px black"
-      })
-    }
-    else {
-      $(this).css({
-          "background-color": "white",
-          "width": "25px"
-      })
-    }
-  });
-}
+change()
